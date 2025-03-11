@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Retaining Wall Designer</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body { background-color: #f8f9fa; }
+    .header { background-color: #00796b; color: #fff; padding: 20px 0; margin-bottom: 30px; }
+    .footer { margin-top: 50px; }
+    .designer { background-color: #ffe082; padding: 10px; border-radius: 5px; font-size: 1.2em; text-align: center; }
+    .card-result { margin-top: 20px; }
+    .aci-safe { font-weight: bold; color: green; }
+    .aci-unsafe { font-weight: bold; color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header text-center">
+      <h1>Retaining Wall Designer</h1>
+    </div>
+
+    <!-- Input Form -->
+    <form method="POST" action="/">
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="font-weight-bold">Stem Height</label>
+            <div class="input-group">
+              <input type="text" name="H" class="form-control" placeholder="10-26" value="{{ form_data.H or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">ft</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Base Width</label>
+            <div class="input-group">
+              <input type="text" name="B" class="form-control" placeholder="3-10" value="{{ form_data.B or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">ft</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Toe Length</label>
+            <div class="input-group">
+              <input type="text" name="Lt" class="form-control" placeholder="1.5-5" value="{{ form_data.Lt or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">ft</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Heel Length</label>
+            <div class="input-group">
+              <input type="text" name="Lh" class="form-control" placeholder="1.5-6.5" value="{{ form_data.Lh or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">ft</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Concrete Strength</label>
+            <div class="input-group">
+              <input type="text" name="fc" class="form-control" placeholder="3000-7000" value="{{ form_data.fc or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">psi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right Column -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="font-weight-bold">Steel Yield Strength</label>
+            <div class="input-group">
+              <input type="text" name="fy" class="form-control" placeholder="60000-90000" value="{{ form_data.fy or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">psi</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Concrete Unit Weight</label>
+            <div class="input-group">
+              <input type="text" name="gamma_c" class="form-control" placeholder="145-150" value="{{ form_data.gamma_c or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">pcf</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Soil Unit Weight</label>
+            <div class="input-group">
+              <input type="text" name="gamma_s" class="form-control" placeholder="110-120" value="{{ form_data.gamma_s or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">pcf</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Active Pressure Coefficient</label>
+            <div class="input-group">
+              <input type="text" name="Ka" class="form-control" placeholder="0.3-0.5" value="{{ form_data.Ka or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text"></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Passive Pressure Coefficient</label>
+            <div class="input-group">
+              <input type="text" name="Kp" class="form-control" placeholder="2-4" value="{{ form_data.Kp or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text"></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Allowable Soil Bearing Capacity</label>
+            <div class="input-group">
+              <input type="text" name="q_all" class="form-control" placeholder="2000-6000" value="{{ form_data.q_all or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">psf</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Surcharge Load</label>
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="100-400" value="{{ form_data.q or '' }}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">psf</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Calculate Button -->
+      <div class="text-center mb-4">
+        <button type="submit" name="action" value="calculate" class="btn btn-success btn-lg">Calculate</button>
+      </div>
+    </form>
+
+    <!-- Display Design Results -->
+    {% if calc_results %}
+      <div class="card card-result">
+        <div class="card-header bg-info text-white">
+          <h4>Design Results</h4>
+        </div>
+        <div class="card-body">
+          <p><strong>FOS Overturning:</strong> {{ calc_results.FOS_Overturning }}</p>
+          <p><strong>FOS Sliding:</strong> {{ calc_results.FOS_Sliding }}</p>
+          <p><strong>FOS Bearing:</strong> {{ calc_results.FOS_Bearing }}</p>
+          <p><strong>ACI Check:</strong>
+            {% if calc_results.ACI_Check == "Structurally Safe" %}
+              <span class="aci-safe">{{ calc_results.ACI_Check }}</span>
+            {% else %}
+              <span class="aci-unsafe">{{ calc_results.ACI_Check }}</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Evaluate Button (in a separate form below design results) -->
+      {% if not ai_feedback %}
+        <form method="POST" action="/">
+          {% for key, value in form_data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endfor %}
+          <input type="hidden" name="action" value="ai_feedback">
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary btn-lg">Evaluate &amp; Suggest Design Optimization</button>
+          </div>
+        </form>
+      {% endif %}
+    {% endif %}
+
+    <!-- Display AI Evaluation Feedback -->
+    {% if ai_feedback %}
+      <div class="card card-result">
+        <div class="card-header bg-warning text-dark">
+          <h4>Design Optimization Feedback</h4>
+        </div>
+        <div class="card-body">
+          <!-- ai_feedback is HTML (converted from markdown) -->
+          <div>{{ ai_feedback|safe }}</div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <div class="footer mt-5">
+      <div class="alert alert-info text-center" role="alert">
+        Designed by : <strong>Dr Muhammad Arif Khan</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap and jQuery Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
